@@ -1,10 +1,10 @@
-
+// Author: Palmani. K
 $(document).ready(function () {
 
     // Global declaration
 
     var imgLength = $('#slideImage').children('img').length;
-    var first, last, curr, prev, isFirstIteration = true, temp, k, autoIndex = 0;
+    var first, last, curr, prev, isFirstIteration = true, temp, k, prevIndex = 0, autoIndex = 0;
     first = $('img').first().show();
     last = $('img').last();
     curr = first;
@@ -13,24 +13,36 @@ $(document).ready(function () {
 
     function loadCircelImg() { // Bining the icon cicrle image dynamically when the page is landing
         try {
-            //console.log('Image Length: ' + imgLength);
             for (index = 0; index < imgLength; index++) {
-                $(addCircleImg).append('<img  src="images/circleNormal.jpg" class="circle" alt="2" ></img>');
+                if (index == 0)
+                    $(addCircleImg).append('<i class="fa fa-circle imgCircleHover"  ></i>');
+                else
+                    $(addCircleImg).append('<i class="fa fa-circle imgCircle"  ></i>');
             }
         }
         catch (e) {
             console.log(e.Message);
         }
     }
-
     loadCircelImg();
+    
     ///////////////////////////////////////////////////
     function moveImg(index) { // Common image move when it's click event or time interval
         try {
-            $(addCircleImg).children('img').eq($(prev).index()).attr('src', 'images/circleNormal.jpg')
-            $(prev).hide();
-            prev = $('#slideImage').children('img').eq(index).show();
-            $(addCircleImg).children('img').eq(index).attr('src', 'images/circleHover.jpg')
+            $(addCircleImg).children('i').eq(prevIndex).removeClass('imgCircleHover').addClass('imgCircle');
+            $(prev).hide("slide", { direction: "right" }, 2000);
+            prev = $('#slideImage').children('img').eq(index).show("slide", { direction: "left" }, 2000);
+            prevIndex = index + 1;
+            if (imgLength == autoIndex) {
+                prev = $('#slideImage').children('img').eq(0).show("slide", { direction: "left" }, 2000);
+                $(addCircleImg).children('i').eq(prevIndex).removeClass('imgCircleHover').addClass('imgCircle');
+                $(addCircleImg).children('i').eq(0).removeClass('imgCircle').addClass('imgCircleHover');
+                prevIndex = 0;
+                autoIndex = 0;
+            }
+            else {
+                $(addCircleImg).children('i').eq(index + 1).removeClass('imgCircle').addClass('imgCircleHover');
+            }
         }
         catch (e) {
             console.log(e.Message);
@@ -45,37 +57,7 @@ $(document).ready(function () {
     });
 
     window.setInterval(function () {//Change the image automatically some time interval
-        if (imgLength == autoIndex) {
-            autoIndex = 0;
-        }
         moveImg(autoIndex++);
-    }, 1000);
-
-    function arrangeElement(floatVal, firstEle, secondEle) { // Arrage the element based on the option view
-        try {
-            $(firstEle).insertAfter(secondEle);
-            $(firstEle).css('float', floatVal);
-            $(secondEle).css('float', floatVal);
-        }
-        catch (e) {
-            console.log(e.Message);
-        }
-    }
-
-    $(':radio').click(function () { // Choose the option to view the tool icon
-        console.log($(this).attr('id'));
-        if ($(this).attr('id') == 'circleRight') {
-            arrangeElement('left', '#circleBtn', '#slideImage');
-        }
-        else if ($(this).attr('id') == 'circleLeft') {
-            arrangeElement('left', '#slideImage', '#circleBtn');
-        }
-        else if ($(this).attr('id') == 'circleTop') {
-            arrangeElement('none', '#slideImage', '#circleBtn');
-        }
-        else if ($(this).attr('id') == 'circleBottom') {
-            arrangeElement('none', '#circleBtn', '#slideImage');
-        }
-    });
+    }, 4000);
 });
      
