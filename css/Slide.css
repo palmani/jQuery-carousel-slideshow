@@ -1,22 +1,33 @@
- #slideImage img{
+/*Author: Palmani. K*/
+body{
+    background-color: #808080;
+} 
+#slideImage img{
     display: none;
-    height:  400px;
-    width:  500px;
-    position: relative;
+    height:  150px;
+    width:  250px;
+    position: absolute;
+    margin-left: 5px;
 }
   
-#slideImage{
+.slideImage{
     float: left;
 }
  
-#circleBtn{
-    float: left;
-    width: 15px;
-}
-#circleBtn img{
-    left: 0px;
-}
-.circleNormal{
-    background-image: url('../images/circleNormal.jpg');
-}
- 
+.desc{
+     z-index: 100;
+     position: absolute;
+     margin-left: 10px;
+     margin-top: 5px;
+ }
+ .imgCircle{
+     color:  white;
+     font-size: 15px;
+ }
+.imgCircleHover {
+     color: #ff6a00;
+     font-size: 15px;
+ }
+ i{
+     margin-left: 4px;
+ }
